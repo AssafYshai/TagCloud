@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Tag Cloud</title>
+</head>
+<script>
+        var tagColors = ["Maroon", "Red", "Orange", "Olive", "Green", "Purple", "Til", "Blue", "Navy", "Black",
+            "Gray", "IndianRed", "DarkRed", "DarkSlateGray", "SeaGreen"];
+        var tags =
+            [
+                { Name: "C++", Uses: 100 },
+                { Name: "C#", Uses: 175 },
+                { Name: "Typescript", Uses: 50 },
+                { Name: "Perl", Uses: 50 },
+                { Name: "Node.js", Uses: 25 },
+                { Name: "VB", Uses: 1 },
+                { Name: "Angular", Uses: 1 },
+                { Name: "React", Uses: 200 },
+                { Name: "Java", Uses: 43 },
+                { Name: "UML", Uses: 150 },
+                { Name: "Javascript", Uses: 50 },
+                { Name: "HTML", Uses: 215 },
+                { Name: "PHP", Uses: 10 },
+                { Name: "Cobol", Uses: 100 },
+            ];
+
+
+        function setTags() {
+
+            var wordWidth = 0;
+            var wordHeight = 0;
+            var totalLineSize = 0;
+            var colorCount = 15;
+
+            var max = 100;
+            var min = 1;
+
+            var fontMin = 20;
+            var fontMax = 40;
+            var htmlLine = "";
+            var tdCounter = 0;
+            var colorName;
+            var pickedColors = ",";
+
+
+            htmlLine = "<tr><td><table><tr>";
+
+            for (var i in tags) {
+                var tag = tags[i];
+
+                var size = tag.Uses == min ? fontMin
+                    : (tag.Uses / max) * (fontMax - fontMin) + fontMin;
+
+                colorName = tagColors[Math.floor(Math.random() * 13) + 1];
+                while (pickedColors.indexOf("," + colorName + ",") >= 0) {
+                    colorName = tagColors[Math.floor(Math.random() * 14) + 1];
+                }
+                pickedColors = pickedColors + colorName + ",";
+
+                if (pickedColors.split(',').length >= colorCount) {
+                    pickedColors = ",";
+                }
+
+                htmlLine = htmlLine + "<td></td><td><span onclick=\"tagChoose('" + tag.Name + "');\" " +
+                                        "style=\"font-weight: bold;cursor:pointer;font-size:" + size + "px;color:" +
+                                        colorName + ";\">" + tag.Name + "</span></td>";
+
+                tdCounter++;
+                if (tdCounter == 4) {
+                    htmlLine = htmlLine + "<td></td></tr></table><table><tr>";
+                    tdCounter = 0;
+                }
+
+
+            }
+
+            htmlLine = htmlLine + "</tr></table></td></tr>";
+            document.getElementById("table1").innerHTML = htmlLine;
+
+        }
+
+
+        function tagChoose(selectedTag) {
+            alert("You choose " + selectedTag);
+        }
+
+
+</script>
+<body>
+    <form id="form1" runat="server">
+        <table>
+            <tr>
+                <td>
+                    <table id="table1"></table>
+                </td>
+            </tr>
+
+        </table>
+    </form>
+</body>
+<script>
+        setTags();
+</script>
+</html>
